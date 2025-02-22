@@ -4,8 +4,8 @@
 TaskMate Backend is a robust and scalable server application that powers the TaskMate task management system. It provides APIs for user authentication, task creation, updating, deletion, and real-time task management.
 
 ## 🔗 Live Links
-- **Backend API Base URL**: `https://your-backend-url.com`
-- **Frontend Repository**: [TaskMate Frontend](https://github.com/your-repo/frontend)
+- **Backend API Base URL**: `http://localhost:5000`
+- **Frontend Repository**: [TaskMate Frontend](https://github.com/fahimfiroz42/task-mate)
 
 ## 📦 Dependencies
 The backend is built using **Node.js** and **Express.js**, with the following dependencies:
