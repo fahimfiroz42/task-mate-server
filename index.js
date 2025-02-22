@@ -7,7 +7,7 @@ const port=process.env.PORT || 5000;
 
 // middleware
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:5175','https://houzezdeal.web.app','https://houzezdeal.firebaseapp.com'],
+    origin: ['http://localhost:5173', 'http://localhost:5175','https://houzezdeal.web.app','https://taskmateplus.netlify.app'],
     credentials: true,
     optionSuccessStatus: 200,
   }
@@ -42,7 +42,7 @@ async function run() {
             if (email) {
                 result = await tasksCollection.find({ userEmail: email }).sort({ order: 1 }).toArray();
             } else {
-                result = await tasksCollection.find().sort({ order: 1 }).toArray();
+                result = await tasksCollection.find().sort({ order: -1 }).toArray();
             }
     
             res.send(result);
@@ -85,24 +85,45 @@ async function run() {
          
 
         app.put("/tasks/:id", async (req, res) => {
-            const { id } = req.params;
-            const { category } = req.body;
-          
-            try {
-              const result = await tasksCollection.updateOne(
-                { _id: new ObjectId(id) },
-                { $set: { category } }
-              );
-          
-              if (result.modifiedCount > 0) {
-                res.status(200).json({ success: true, message: "Task updated successfully" });
-              } else {
-                res.status(400).json({ success: false, message: "Task not updated" });
-              }
-            } catch (error) {
-              res.status(500).json({ success: false, error: error.message });
+          const { id } = req.params;
+          const { title, description, category } = req.body;
+        
+          try {
+            const result = await tasksCollection.updateOne(
+              { _id: new ObjectId(id) },
+              { $set: { title, description, category } }
+            );
+        
+            if (result.modifiedCount > 0) {
+              res.status(200).json({ success: true, message: "Task updated successfully" });
+            } else {
+              res.status(400).json({ success: false, message: "Task not updated" });
             }
-          });
+          } catch (error) {
+            res.status(500).json({ success: false, error: error.message });
+          }
+        });
+        
+        app.patch("/tasks/:id", async (req, res) => {
+          const { id } = req.params;
+          const { category } = req.body;
+        
+          try {
+            const result = await tasksCollection.updateOne(
+              { _id: new ObjectId(id) },
+              { $set: { category } }
+            );
+        
+            if (result.modifiedCount > 0) {
+              res.status(200).json({ success: true, message: "Task updated successfully" });
+            } else {
+              res.status(400).json({ success: false, message: "Task not updated" });
+            }
+          } catch (error) {
+            res.status(500).json({ success: false, error: error.message });
+          }
+        });
+        
           
 
           app.put("/tasks/reorder", async (req, res) => {
